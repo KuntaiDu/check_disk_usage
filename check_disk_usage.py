@@ -52,10 +52,11 @@ def main():
             f.write('size,path,depth,host\n')
             
 
-    pattern = re.compile('^/data[a-z0-9]*$')
+    pattern1 = re.compile('^/data[a-z0-9]*$')
+    pattern2 = re.compile('^/tank$')
 
     disks = [i.mountpoint for i in psutil.disk_partitions()]
-    disks = [i for i in disks if pattern.match(i)]
+    disks = [i for i in disks if pattern1.match(i) or pattern2.match(i)]
     print('Analyzing ' + str(disks))
     
     threads = [threading.Thread(target=calc_usage, args=[i]) for i in disks]
